@@ -18,61 +18,65 @@ class _ImageInfoPageState extends State<ImageInfoPage> {
   Map<String, IfdTag>? imageData;
 
   onDrag(detail) async {
-    List<XFile> files = detail.files;
+    List<XFile> files = detail.fileList;
     file = files.single;
     image = file!.path;
     setState(() {});
 
-    print('路径: ${file!.path}');
-    print('名称: ${file!.name}');
-    print('mimeType: ${file!.mimeType}');
-    print('hashCode: ${file.hashCode}');
-    print('string: ${file.toString()}');
-    print('长度: ${await file!.length()}');
-    print('上次修改: ${await file!.lastModified()}');
+    debugPrint('路径: ${file!.path}');
+    debugPrint('名称: ${file!.name}');
+    debugPrint('mimeType: ${file!.mimeType}');
+    debugPrint('hashCode: ${file.hashCode}');
+    debugPrint('string: ${file.toString()}');
+    debugPrint('长度: ${await file!.length()}');
+    debugPrint('上次修改: ${await file!.lastModified()}');
     FileSystemEntity imageFile = File(image!);
-    print('path: ${imageFile.path}');
-    print('parent: ${imageFile.parent}');
-    print('uri: ${imageFile.uri}');
-    print('absolute: ${imageFile.absolute}');
-    print('isAbsolute: ${imageFile.isAbsolute}');
-    print('hashCode: ${imageFile.hashCode}');
-    print('runtimeType: ${imageFile.runtimeType}');
-    print('toString: ${imageFile.toString()}');
-    print('type: ${imageFile.statSync().type}');
-    print('accessed: ${imageFile.statSync().accessed}');
-    print('size: ${imageFile.statSync().size}');
-    print('changed: ${imageFile.statSync().changed}');
-    print('mode: ${imageFile.statSync().mode}');
-    print('modified: ${imageFile.statSync().modified}');
-    print('modeString: ${imageFile.statSync().modeString()}');
-    print('hashCode: ${imageFile.resolveSymbolicLinksSync().hashCode}');
-    print('length: ${imageFile.resolveSymbolicLinksSync().length}');
-    print('isNotEmpty: ${imageFile.resolveSymbolicLinksSync().isNotEmpty}');
-    print('isEmpty: ${imageFile.resolveSymbolicLinksSync().isEmpty}');
-    print('characters: ${imageFile.resolveSymbolicLinksSync().characters}');
-    print('codeUnits: ${imageFile.resolveSymbolicLinksSync().codeUnits}');
-    print('runes: ${imageFile.resolveSymbolicLinksSync().runes}');
-    print('runtimeType: ${imageFile.resolveSymbolicLinksSync().runtimeType}');
-    print('toString: ${imageFile.resolveSymbolicLinksSync().toString()}');
-    print('capitalize: ${imageFile.resolveSymbolicLinksSync().capitalize}');
-    print('路径: ${imageFile.resolveSymbolicLinksSync().characters}');
+    debugPrint('path: ${imageFile.path}');
+    debugPrint('parent: ${imageFile.parent}');
+    debugPrint('uri: ${imageFile.uri}');
+    debugPrint('absolute: ${imageFile.absolute}');
+    debugPrint('isAbsolute: ${imageFile.isAbsolute}');
+    debugPrint('hashCode: ${imageFile.hashCode}');
+    debugPrint('runtimeType: ${imageFile.runtimeType}');
+    debugPrint('toString: ${imageFile.toString()}');
+    debugPrint('type: ${imageFile.statSync().type}');
+    debugPrint('accessed: ${imageFile.statSync().accessed}');
+    debugPrint('size: ${imageFile.statSync().size}');
+    debugPrint('changed: ${imageFile.statSync().changed}');
+    debugPrint('mode: ${imageFile.statSync().mode}');
+    debugPrint('modified: ${imageFile.statSync().modified}');
+    debugPrint('modeString: ${imageFile.statSync().modeString()}');
+    debugPrint('hashCode: ${imageFile.resolveSymbolicLinksSync().hashCode}');
+    debugPrint('length: ${imageFile.resolveSymbolicLinksSync().length}');
+    debugPrint(
+        'isNotEmpty: ${imageFile.resolveSymbolicLinksSync().isNotEmpty}');
+    debugPrint('isEmpty: ${imageFile.resolveSymbolicLinksSync().isEmpty}');
+    debugPrint(
+        'characters: ${imageFile.resolveSymbolicLinksSync().characters}');
+    debugPrint('codeUnits: ${imageFile.resolveSymbolicLinksSync().codeUnits}');
+    debugPrint('runes: ${imageFile.resolveSymbolicLinksSync().runes}');
+    debugPrint(
+        'runtimeType: ${imageFile.resolveSymbolicLinksSync().runtimeType}');
+    debugPrint('toString: ${imageFile.resolveSymbolicLinksSync().toString()}');
+    debugPrint(
+        'capitalize: ${imageFile.resolveSymbolicLinksSync().capitalize}');
+    debugPrint('路径: ${imageFile.resolveSymbolicLinksSync().characters}');
     final fileBytes = File(image!).readAsBytesSync();
     imageData = await readExifFromBytes(fileBytes);
     if (imageData!.isEmpty) {
-      print("No EXIF information found");
+      debugPrint("No EXIF information found");
       return;
     }
     if (imageData!.containsKey('JPEGThumbnail')) {
-      print('File has JPEG thumbnail');
+      debugPrint('File has JPEG thumbnail');
       imageData!.remove('JPEGThumbnail');
     }
     if (imageData!.containsKey('TIFFThumbnail')) {
-      print('File has TIFF thumbnail');
+      debugPrint('File has TIFF thumbnail');
       imageData!.remove('TIFFThumbnail');
     }
     for (final entry in imageData!.entries) {
-      print("${entry.key}: ${entry.value}");
+      debugPrint("${entry.key}: ${entry.value}");
     }
   }
 

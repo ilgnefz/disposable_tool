@@ -51,6 +51,7 @@ dependencies:
   quiver: ^3.2.2
   pinyin: ^3.3.0
   tolyui_navigation: ^0.0.8+10
+  pasteboard: ^0.3.0
 
 dev_dependencies:
   flutter_test:

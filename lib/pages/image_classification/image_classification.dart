@@ -65,14 +65,14 @@ class _ImageClassificationState extends State<ImageClassification> {
         try {
           File(item.path).renameSync(path.join(horizontal, item.name));
         } catch (e) {
-          print(e.toString());
+          debugPrint(e.toString());
         }
       }
       if (item.orientation == ImageOrientation.vertical) {
         try {
           File(item.path).renameSync(path.join(vertical, item.name));
         } catch (e) {
-          print(e.toString());
+          debugPrint(e.toString());
         }
       }
     }

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:path/path.dart' as path;
 
 /// [dir]资源所在文件夹
@@ -8,7 +9,7 @@ void generateAssets(String dir, String generateDir) {
   List<String> allFile = [];
   String dirName = '';
   String assetsPaht = path.join(path.current, dir);
-  print('assetsPaht: $assetsPaht');
+  debugPrint('assetsPaht: $assetsPaht');
   Directory directory = Directory(assetsPaht);
   if (directory.existsSync()) {
     List<FileSystemEntity> files = directory.listSync();
@@ -24,7 +25,7 @@ void generateAssets(String dir, String generateDir) {
       }
       autoGenerate(allFile, dirName, generateDir);
     } else {
-      print('该文件夹为空');
+      debugPrint('该文件夹为空');
     }
   } else {
     directory.createSync();

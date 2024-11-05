@@ -22,7 +22,7 @@ class _KeyFormState extends State<KeyForm> {
       onChanged: () {
         var state = _formKey.currentState;
         state?.save();
-        print('改变了');
+        debugPrint('改变了');
         widget.provider.format();
       },
       child: SingleChildScrollView(

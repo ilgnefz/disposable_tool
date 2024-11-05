@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:disposable_tool/pages/home.dart';
 import 'package:disposable_tool/provider/app.dart';
 import 'package:disposable_tool/provider/file_explorer.dart';
@@ -46,6 +47,8 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           fontFamily: 'MiSans',
         ),
+        builder: BotToastInit(), //1. call BotToastInit
+        navigatorObservers: [BotToastNavigatorObserver()],
         home: const HomePage(),
       ),
     );

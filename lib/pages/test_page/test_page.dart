@@ -44,8 +44,10 @@ class _TestPageState extends State<TestPage> {
 }
 
 class ExpandableDropdown extends StatefulWidget {
+  const ExpandableDropdown({super.key});
+
   @override
-  _ExpandableDropdownState createState() => _ExpandableDropdownState();
+  State<ExpandableDropdown> createState() => _ExpandableDropdownState();
 }
 
 class _ExpandableDropdownState extends State<ExpandableDropdown> {
@@ -65,10 +67,10 @@ class _ExpandableDropdownState extends State<ExpandableDropdown> {
       itemBuilder: (context) => [
         PopupMenuItem<String>(
           child: ExpansionTile(
-            title: Text('Select an option'),
+            title: const Text('Select an option'),
             children: [
               ListTile(
-                title: Text('Option 1'),
+                title: const Text('Option 1'),
                 onTap: () {
                   setState(() {
                     selectedValue = 'Option 1';
@@ -78,7 +80,7 @@ class _ExpandableDropdownState extends State<ExpandableDropdown> {
                 },
               ),
               ListTile(
-                title: Text('Option 2'),
+                title: const Text('Option 2'),
                 onTap: () {
                   setState(() {
                     selectedValue = 'Option 2';
@@ -88,7 +90,7 @@ class _ExpandableDropdownState extends State<ExpandableDropdown> {
                 },
               ),
               ListTile(
-                title: Text('Option 3'),
+                title: const Text('Option 3'),
                 onTap: () {
                   setState(() {
                     selectedValue = 'Option 3';
@@ -102,7 +104,7 @@ class _ExpandableDropdownState extends State<ExpandableDropdown> {
         ),
       ],
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey),
           borderRadius: BorderRadius.circular(4),
@@ -111,7 +113,7 @@ class _ExpandableDropdownState extends State<ExpandableDropdown> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(selectedValue ?? 'Select an option'),
-            Icon(Icons.arrow_drop_down),
+            const Icon(Icons.arrow_drop_down),
           ],
         ),
       ),

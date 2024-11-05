@@ -21,15 +21,15 @@ class _CustomExTDemoState extends State<CustomExTDemo> {
             });
           },
           child: Container(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
-              border: Border(bottom: BorderSide(color: Colors.grey)),
+              border: const Border(bottom: BorderSide(color: Colors.grey)),
               color: Colors.blue[100],
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   '点击展开/收起',
                   style: TextStyle(fontSize: 18),
                 ),
@@ -41,7 +41,7 @@ class _CustomExTDemoState extends State<CustomExTDemo> {
           ),
         ),
         AnimatedContainer(
-          duration: Duration(milliseconds: 300), // 动画持续时间
+          duration: const Duration(milliseconds: 300), // 动画持续时间
           curve: Curves.easeInOut, // 动画曲线
           height: _isExpanded ? 60 * 4 : 0, // 根据状态改变高度
           child: Padding(
@@ -51,28 +51,28 @@ class _CustomExTDemoState extends State<CustomExTDemo> {
                 children: [
                   Opacity(
                     opacity: _isExpanded ? 1 : 0, // 根据状态改变透明度
-                    child: Text(
+                    child: const Text(
                       '这里是展开的内容！',
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
                   Opacity(
                     opacity: _isExpanded ? 1 : 0, // 根据状态改变透明度
-                    child: Text(
+                    child: const Text(
                       '这里是展开的内容！',
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
                   Opacity(
                     opacity: _isExpanded ? 1 : 0, // 根据状态改变透明度
-                    child: Text(
+                    child: const Text(
                       '这里是展开的内容！',
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
                   Opacity(
                     opacity: _isExpanded ? 1 : 0, // 根据状态改变透明度
-                    child: Text(
+                    child: const Text(
                       '这里是展开的内容！',
                       style: TextStyle(fontSize: 16),
                     ),
@@ -105,7 +105,7 @@ class _CustomExTDemo2State extends State<CustomExTDemo2>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       vsync: this,
     );
 
@@ -132,15 +132,15 @@ class _CustomExTDemo2State extends State<CustomExTDemo2>
         GestureDetector(
           onTap: _toggleExpansion,
           child: Container(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
-              border: Border(bottom: BorderSide(color: Colors.grey)),
+              border: const Border(bottom: BorderSide(color: Colors.grey)),
               color: Colors.blue[100],
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   '点击展开/收起',
                   style: TextStyle(fontSize: 18),
                 ),
@@ -159,28 +159,28 @@ class _CustomExTDemo2State extends State<CustomExTDemo2>
               children: [
                 Opacity(
                   opacity: _isExpanded ? 1 : 0,
-                  child: Text(
+                  child: const Text(
                     '这里是展开的内容！',
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
                 Opacity(
                   opacity: _isExpanded ? 1 : 0,
-                  child: Text(
+                  child: const Text(
                     '更多内容...',
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
                 Opacity(
                   opacity: _isExpanded ? 1 : 0,
-                  child: Text(
+                  child: const Text(
                     '这里是展开的内容！',
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
                 Opacity(
                   opacity: _isExpanded ? 1 : 0,
-                  child: Text(
+                  child: const Text(
                     '更多内容...',
                     style: TextStyle(fontSize: 16),
                   ),

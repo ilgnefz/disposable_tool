@@ -19,7 +19,7 @@ class _WinWallpaperState extends State<WinWallpaper> {
   String current = '';
   String image = '';
 
-  void printWallpaper() {
+  void debugPrintWallpaper() {
     final pathPtr = calloc<Pointer<Utf16>>();
 
     try {
@@ -29,12 +29,13 @@ class _WinWallpaperState extends State<WinWallpaper> {
         case S_OK:
           final path = pathPtr.value.toDartString();
           if (path.isNotEmpty) current = path;
-          print(path.isEmpty
+          debugPrint(path.isEmpty
               ? 'No wallpaper is set.'
               : 'Wallpaper path is: $path');
 
         case S_FALSE:
-          print('Different monitors are displaying different wallpapers, or a '
+          debugPrint(
+              'Different monitors are displaying different wallpapers, or a '
               'slideshow is running.');
 
         default:
@@ -45,7 +46,7 @@ class _WinWallpaperState extends State<WinWallpaper> {
     }
   }
 
-  void printBackgroundColor() {
+  void debugPrintBackgroundColor() {
     final colorPtr = calloc<COLORREF>();
 
     try {
@@ -53,7 +54,7 @@ class _WinWallpaperState extends State<WinWallpaper> {
 
       if (SUCCEEDED(hr)) {
         final color = colorPtr.value;
-        print('Background color is: RGB(${GetRValue(color)}, '
+        debugPrint('Background color is: RGB(${GetRValue(color)}, '
             '${GetGValue(color)}, ${GetBValue(color)})');
       } else {
         throw WindowsException(hr);
@@ -64,14 +65,14 @@ class _WinWallpaperState extends State<WinWallpaper> {
   }
 
   void result() {
-    final hr = CoInitializeEx(
-        nullptr, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
+    final hr = CoInitializeEx(nullptr,
+        COINIT.COINIT_APARTMENTTHREADED | COINIT.COINIT_DISABLE_OLE1DDE);
     if (FAILED(hr)) throw WindowsException(hr);
 
     wallpaper = DesktopWallpaper.createInstance();
 
-    printWallpaper();
-    printBackgroundColor();
+    debugPrintWallpaper();
+    debugPrintBackgroundColor();
     setState(() {});
   }
 
