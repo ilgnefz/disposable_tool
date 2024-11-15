@@ -43,6 +43,18 @@ class _DirectoryFilesState extends State<DirectoryFiles> {
     setState(() {});
   }
 
+  void copyFileName() async {
+    String text = '';
+    for (int i = 0; i < fileList.length; i++) {
+      text += '${fileList[i]}\n';
+    }
+    Pasteboard.writeText(text);
+    var cancel = BotToast.showText(text: "复制成功");
+    await Future.delayed(const Duration(seconds: 3), () {
+      cancel();
+    });
+  }
+
   void copyText() async {
     String text = '';
     for (int i = 0; i < fileList.length; i++) {
@@ -132,8 +144,12 @@ class _DirectoryFilesState extends State<DirectoryFiles> {
                   ),
                 ),
                 ElevatedButton(
+                  onPressed: copyFileName,
+                  child: const Text('复制文件名'),
+                ),
+                ElevatedButton(
                   onPressed: copyText,
-                  child: const Text('复制文本'),
+                  child: const Text('复制新旧文本'),
                 ),
               ],
             ),
