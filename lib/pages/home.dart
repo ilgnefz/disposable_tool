@@ -1,4 +1,5 @@
 import 'package:disposable_tool/pages/directory_files/directory_files.dart';
+import 'package:disposable_tool/pages/file_name_charset/file_name_charset.dart';
 import 'package:disposable_tool/pages/generate_json/generate_json.dart';
 import 'package:disposable_tool/pages/image_classification/image_classification.dart';
 import 'package:disposable_tool/pages/image_info/image_info.dart';
@@ -21,6 +22,7 @@ List<Widget> _pages = [
   const WinWallpaper(),
   const SimpleTreeTest(),
   const DirectoryFiles(),
+  const FileNameCharset(),
   const TestPage(),
 ];
 List<String> _title = [
@@ -32,6 +34,7 @@ List<String> _title = [
   '设置壁纸',
   '简单树结构',
   '获取文件名称',
+  '文件名编码',
   '测试'
 ];
 
