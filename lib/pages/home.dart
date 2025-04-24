@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'file_explorer/file_explorer.dart';
+import 'folder_diff/folder_diff.dart';
 
 List<Widget> _pages = [
   const ReadJsonDataPage(),
@@ -23,6 +24,7 @@ List<Widget> _pages = [
   const SimpleTreeTest(),
   const DirectoryFiles(),
   const FileNameCharset(),
+  const FolderDiff(),
   const TestPage(),
 ];
 List<String> _title = [
@@ -35,6 +37,7 @@ List<String> _title = [
   '简单树结构',
   '获取文件名称',
   '文件名编码',
+  '文件夹比较',
   '测试'
 ];
 
