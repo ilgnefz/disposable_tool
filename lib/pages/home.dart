@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 
 import 'file_explorer/file_explorer.dart';
 import 'folder_diff/folder_diff.dart';
+import 'play_video/play_video.dart';
 
 List<Widget> _pages = [
   const ReadJsonDataPage(),
@@ -25,6 +26,7 @@ List<Widget> _pages = [
   const DirectoryFiles(),
   const FileNameCharset(),
   const FolderDiff(),
+  const PlayVideo(),
   const TestPage(),
 ];
 List<String> _title = [
@@ -38,6 +40,7 @@ List<String> _title = [
   '获取文件名称',
   '文件名编码',
   '文件夹比较',
+  '播放视频',
   '测试'
 ];
 

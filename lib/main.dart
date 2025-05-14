@@ -4,10 +4,9 @@ import 'package:disposable_tool/provider/app.dart';
 import 'package:disposable_tool/provider/file_explorer.dart';
 import 'package:disposable_tool/provider/generate_json.dart';
 import 'package:disposable_tool/provider/read_json.dart';
-// import 'package:disposable_tool/utils/generate_assets.dart';
 import 'package:flutter/material.dart';
+import 'package:media_kit/media_kit.dart';
 import 'package:provider/provider.dart';
-import 'package:video_player_media_kit/video_player_media_kit.dart';
 import 'package:window_manager/window_manager.dart';
 
 void main() async {
@@ -25,11 +24,7 @@ void main() async {
     await windowManager.focus();
   });
 
-  VideoPlayerMediaKit.ensureInitialized(
-    macOS: true,
-    windows: true,
-    linux: true,
-  );
+  MediaKit.ensureInitialized();
 
   // generateAssets('assets', 'my_value');
   runApp(const MyApp());
