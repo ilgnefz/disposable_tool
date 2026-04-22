@@ -28,7 +28,7 @@ class ReadJsonProvider extends ChangeNotifier {
   }
 
   importJson(bool qq) async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
+    FilePickerResult? result = await FilePicker.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['json'],
     );
@@ -54,7 +54,7 @@ class ReadJsonProvider extends ChangeNotifier {
   }
 
   exportJson() async {
-    String? outputFile = await FilePicker.platform.saveFile(
+    String? outputFile = await FilePicker.saveFile(
       fileName: '重命名.json',
     );
     if (outputFile != null) {

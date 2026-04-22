@@ -20,7 +20,7 @@ class _FolderDiffState extends State<FolderDiff> {
 
   void addFolder(List<EasyDiff> list) async {
     list.clear();
-    String? dir = await FilePicker.platform.getDirectoryPath();
+    String? dir = await FilePicker.getDirectoryPath();
     if (dir != null) {
       isLoading = true;
       setState(() {});

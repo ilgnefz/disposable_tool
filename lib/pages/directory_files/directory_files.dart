@@ -20,7 +20,7 @@ class _DirectoryFilesState extends State<DirectoryFiles> {
   TextEditingController nameController = TextEditingController();
 
   void getFiles() async {
-    String? dir = await FilePicker.platform.getDirectoryPath();
+    String? dir = await FilePicker.getDirectoryPath();
     if (dir == null) return;
     //   获取文件夹下所有子文件的名称
     Set<String> fileSet = await Directory(dir)
@@ -79,36 +79,48 @@ class _DirectoryFilesState extends State<DirectoryFiles> {
         child: Column(
           children: [
             Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: ReorderableListView.builder(
-                  itemBuilder: (context, index) => Container(
-                    key: ValueKey(fileList[index]),
-                    padding: const EdgeInsets.only(
-                      left: 12,
-                      right: 48,
-                    ),
-                    child: Row(
-                      children: [
-                        Text(fileList[index]),
-                        const Spacer(),
-                        Text('$name${formatNum(index + 1)}'),
-                        const SizedBox(width: 16),
-                        CloseButton(
-                          onPressed: () {
-                            fileList.remove(fileList[index]);
-                            setState(() {});
-                          },
-                        ),
-                      ],
+              child: ReorderableListView.builder(
+                buildDefaultDragHandles: false,
+                itemBuilder: (context, index) => ReorderableDragStartListener(
+                  index: index,
+                  key: ValueKey(fileList[index]),
+                  child: InkWell(
+                    onTap: () {},
+                    mouseCursor: SystemMouseCursors.click,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      color: Colors.white,
+                      child: Row(
+                        children: [
+                          Expanded(child: Text(fileList[index])),
+                          Text('$name${formatNum(index + 1)}'),
+                          const SizedBox(width: 16),
+                          IconButton(
+                              onPressed: () {
+                                fileList.insert(0, fileList.removeAt(index));
+                                setState(() {});
+                              },
+                              icon: const Icon(Icons.arrow_upward_rounded)),
+                          IconButton(
+                              onPressed: () {
+                                fileList.insert(fileList.length - 1,
+                                    fileList.removeAt(index));
+                                setState(() {});
+                              },
+                              icon: const Icon(Icons.arrow_downward_rounded)),
+                          CloseButton(
+                            onPressed: () {
+                              fileList.remove(fileList[index]);
+                              setState(() {});
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  itemCount: fileList.length,
-                  onReorder: _onReorder,
                 ),
+                itemCount: fileList.length,
+                onReorder: _onReorder,
               ),
             ),
             const SizedBox(height: 12),

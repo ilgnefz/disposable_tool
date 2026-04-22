@@ -40,7 +40,7 @@ class _FileNameCharsetState extends State<FileNameCharset> {
 
   void getFiles() async {
     fileList.clear();
-    String? dir = await FilePicker.platform.getDirectoryPath();
+    String? dir = await FilePicker.getDirectoryPath();
     if (dir == null) return;
     print('开始......');
     // 获取文件夹下的所有子文件夹

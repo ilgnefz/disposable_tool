@@ -5,7 +5,6 @@ import 'package:disposable_tool/provider/file_explorer.dart';
 import 'package:disposable_tool/provider/generate_json.dart';
 import 'package:disposable_tool/provider/read_json.dart';
 import 'package:flutter/material.dart';
-import 'package:media_kit/media_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -23,8 +22,6 @@ void main() async {
     await windowManager.show();
     await windowManager.focus();
   });
-
-  MediaKit.ensureInitialized();
 
   // generateAssets('assets', 'my_value');
   runApp(const MyApp());
@@ -45,10 +42,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Disposable Tool',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          useMaterial3: true,
-          fontFamily: 'MiSans',
-        ),
+        theme: ThemeData(fontFamily: '微软雅黑'),
         builder: BotToastInit(), //1. call BotToastInit
         navigatorObservers: [BotToastNavigatorObserver()],
         home: const HomePage(),

@@ -45,7 +45,7 @@ class GenerateJsonProvider extends ChangeNotifier {
   }
 
   upload() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    FilePickerResult? result = await FilePicker.pickFiles();
     if (result != null) {
       File file = File(result.files.single.path!);
       _originalText.text = await file.readAsString();
@@ -55,8 +55,7 @@ class GenerateJsonProvider extends ChangeNotifier {
   }
 
   export() async {
-    String? outputFile =
-        await FilePicker.platform.saveFile(fileName: 'newFile.json');
+    String? outputFile = await FilePicker.saveFile(fileName: 'newFile.json');
     if (outputFile != null) {
       File file = File(outputFile);
       await file.writeAsString(jsonText.text);

@@ -77,7 +77,7 @@ class _WinWallpaperState extends State<WinWallpaper> {
   }
 
   void selectImage() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
+    FilePickerResult? result = await FilePicker.pickFiles(
       type: FileType.image,
     );
     if (result != null) {

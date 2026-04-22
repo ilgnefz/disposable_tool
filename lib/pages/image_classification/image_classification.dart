@@ -18,7 +18,7 @@ class _ImageClassificationState extends State<ImageClassification> {
   String runState = '未开始';
 
   void readDir() async {
-    final String? dirPath = await FilePicker.platform.getDirectoryPath();
+    final String? dirPath = await FilePicker.getDirectoryPath();
     if (dirPath != null) {
       runState = '运行中';
       setState(() {});
