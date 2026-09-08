@@ -17,7 +17,7 @@ class InputField extends StatelessWidget {
           borderRadius: BorderRadius.circular(4),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(.1),
+              color: Colors.black.withValues(alpha: .1),
               spreadRadius: 0,
               blurRadius: 2,
             )

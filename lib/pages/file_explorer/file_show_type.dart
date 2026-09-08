@@ -25,15 +25,15 @@ class FileShowType extends StatelessWidget {
       if (['.avi', '.mp4', '.mkv', '.wmv']
           .contains(path.extension(file.path).toLowerCase())) {
         return Icon(Icons.video_file,
-            size: size, color: Colors.grey.withOpacity(.4));
+            size: size, color: Colors.grey.withValues(alpha: .4));
       }
       if (['.mp3', '.flac', '.m4a']
           .contains(path.extension(file.path).toLowerCase())) {
         return Icon(Icons.audio_file,
-            size: size, color: Colors.grey.withOpacity(.4));
+            size: size, color: Colors.grey.withValues(alpha: .4));
       }
       return Icon(Icons.insert_drive_file_rounded,
-          size: size, color: Colors.grey.withOpacity(.4));
+          size: size, color: Colors.grey.withValues(alpha: .4));
     }
   }
 }

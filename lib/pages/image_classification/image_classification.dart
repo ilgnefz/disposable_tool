@@ -28,7 +28,8 @@ class _ImageClassificationState extends State<ImageClassification> {
           String name = path.basename(item.path);
           String extension = name.split('.').last;
           if (!imageType.contains(extension)) continue;
-          final size = ImageSizeGetter.getSize(FileInput(File(item.path)));
+          final size =
+              ImageSizeGetter.getSizeResult(FileInput(File(item.path))).size;
           ImageOrientation orientation = ImageOrientation.other;
           if (size.width > size.height) {
             orientation = ImageOrientation.horizontal;

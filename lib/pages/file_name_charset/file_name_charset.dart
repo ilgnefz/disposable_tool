@@ -19,7 +19,7 @@ class FileNameCharset extends StatefulWidget {
 class _FileNameCharsetState extends State<FileNameCharset> {
   List<NameCharset> fileList = [];
 
-  onDrag(DropDoneDetails detail) async {
+  Future<void> onDrag(DropDoneDetails detail) async {
     List<XFile> files = detail.files;
     var uuid = const Uuid();
     for (var xFile in files) {
@@ -42,7 +42,7 @@ class _FileNameCharsetState extends State<FileNameCharset> {
     fileList.clear();
     String? dir = await FilePicker.getDirectoryPath();
     if (dir == null) return;
-    print('开始......');
+    debugPrint('开始......');
     // 获取文件夹下的所有子文件夹
     List<FileSystemEntity> parentDirList =
         await Directory(dir).list().where((e) => e is Directory).toList();
@@ -74,8 +74,8 @@ class _FileNameCharsetState extends State<FileNameCharset> {
       fileList.add(nameCharset);
       setState(() {});
     }
-    print('完成！！！');
-    print(fileList);
+    debugPrint('完成！！！');
+    debugPrint(fileList.toString());
   }
 
   void removeFile(NameCharset nameCharset) {
@@ -91,9 +91,9 @@ class _FileNameCharsetState extends State<FileNameCharset> {
         fileList.firstWhere((e) => e.id == nameCharset.id).newName = newName;
         setState(() {});
       } catch (e) {
-        print('文件名：${nameCharset.name}');
-        print('路径：${nameCharset.parent}\\${nameCharset.name}');
-        print('出错了：$e');
+        debugPrint('文件名：${nameCharset.name}');
+        debugPrint('路径：${nameCharset.parent}\\${nameCharset.name}');
+        debugPrint('出错了：$e');
       }
     }
   }
@@ -128,7 +128,7 @@ class _FileNameCharsetState extends State<FileNameCharset> {
         file.name = nameCharset.newName;
         setState(() {});
       } catch (e) {
-        print(e);
+        debugPrint(e.toString());
       }
     }
   }

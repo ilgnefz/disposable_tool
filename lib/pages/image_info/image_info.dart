@@ -17,7 +17,7 @@ class _ImageInfoPageState extends State<ImageInfoPage> {
   String? image;
   Map<String, IfdTag>? imageData;
 
-  onDrag(DropDoneDetails detail) async {
+  Future<void> onDrag(DropDoneDetails detail) async {
     List<XFile> files = detail.files;
     file = files.single;
     image = file!.path;

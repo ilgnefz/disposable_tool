@@ -5,7 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:pasteboard/pasteboard.dart';
 import 'package:path/path.dart' as path;
-import 'package:pinyin/pinyin.dart';
+import 'package:string_util_xx/StringUtilxx.dart';
 
 class DirectoryFiles extends StatefulWidget {
   const DirectoryFiles({super.key});
@@ -18,19 +18,21 @@ class _DirectoryFilesState extends State<DirectoryFiles> {
   List<String> fileList = [];
   String name = '';
   TextEditingController nameController = TextEditingController();
+  bool wholeName = false;
 
   void getFiles() async {
     String? dir = await FilePicker.getDirectoryPath();
     if (dir == null) return;
     //   获取文件夹下所有子文件的名称
-    Set<String> fileSet = await Directory(dir)
-        .list()
-        .map((e) => path.basenameWithoutExtension(e.path))
-        .toSet();
-    fileList = fileSet.toList();
+    fileList = await Directory(dir).list().map((e) {
+      if (e is Directory) return path.basename(e.path);
+      return wholeName
+          ? path.basename(e.path)
+          : path.basenameWithoutExtension(e.path);
+    }).toList();
+    debugPrint('共有 ${fileList.length} 个文件');
     // 按名称排序files
-    fileList.sort((a, b) =>
-        PinyinHelper.getPinyinE(a).compareTo(PinyinHelper.getPinyinE(b)));
+    fileList.sort(StringUtilxx_c.compareExtend);
     // customSort(files);
     // files.sort((a, b) => a.compareTo(b));
     setState(() {});
@@ -120,13 +122,25 @@ class _DirectoryFilesState extends State<DirectoryFiles> {
                   ),
                 ),
                 itemCount: fileList.length,
-                onReorder: _onReorder,
+                onReorderItem: _onReorder,
               ),
             ),
             const SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Row(
+                  children: [
+                    Checkbox(
+                        value: wholeName,
+                        onChanged: (bool? value) {
+                          wholeName = value!;
+                          setState(() {});
+                        }),
+                    const Text('保留扩展'),
+                  ],
+                ),
+                SizedBox(width: 12),
                 ElevatedButton(
                   onPressed: getFiles,
                   child: const Text('选择文件夹'),

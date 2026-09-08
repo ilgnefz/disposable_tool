@@ -98,7 +98,9 @@ class AppOption extends StatelessWidget {
           onTap: () => provider.setCurrentIndex(index),
           child: Container(
             height: 48,
-            color: selected ? Colors.blue.withOpacity(.2) : Colors.transparent,
+            color: selected
+                ? Colors.blue.withValues(alpha: .2)
+                : Colors.transparent,
             alignment: Alignment.center,
             child: Text(
               title,

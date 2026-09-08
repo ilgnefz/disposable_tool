@@ -11,7 +11,7 @@ class DiskPage extends StatefulWidget {
 class _DiskPageState extends State<DiskPage> {
   final List<Disk> _diskList = [];
 
-  getDiskInfo() async {
+  void getDiskInfo() async {
     final diskSpace = DiskSpace();
     await diskSpace.scan();
     var disks = diskSpace.disks;

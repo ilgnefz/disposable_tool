@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -23,7 +24,7 @@ class GenerateJsonProvider extends ChangeNotifier {
 
   final List<String> _keyList = [];
   List<String> get keyList => _keyList;
-  addKey(int index, String key) {
+  void addKey(int index, String key) {
     if (index + 1 > _keyList.length) {
       _keyList.add(key);
     } else {
@@ -34,36 +35,35 @@ class GenerateJsonProvider extends ChangeNotifier {
 
   int _keyNum = 1;
   int get keyNum => _keyNum;
-  increment() {
+  void increment() {
     _keyNum++;
     notifyListeners();
   }
 
-  reduce() {
+  void reduce() {
     if (_keyNum > 1) _keyNum--;
     notifyListeners();
   }
 
-  upload() async {
-    FilePickerResult? result = await FilePicker.pickFiles();
-    if (result != null) {
-      File file = File(result.files.single.path!);
+  Future<void> upload() async {
+    List<PlatformFile> result = await FilePicker.pickFiles();
+    if (result.isNotEmpty) {
+      File file = File(result.single.path!);
       _originalText.text = await file.readAsString();
       notifyListeners();
       format();
     }
   }
 
-  export() async {
-    String? outputFile = await FilePicker.saveFile(fileName: 'newFile.json');
-    if (outputFile != null) {
-      File file = File(outputFile);
-      await file.writeAsString(jsonText.text);
-      await file.create();
+  Future<void> export() async {
+    Uri? outputFile = await FilePicker.saveFile(
+        fileName: 'newFile.json', bytes: utf8.encode(jsonText.text));
+    if (outputFile == null) {
+      debugPrint('文件导出失败');
     }
   }
 
-  format() {
+  void format() {
     if (_originalText.text.isEmpty) return _jsonText.clear();
     String content = _originalText.text;
     late List<String> jsonList;

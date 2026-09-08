@@ -10,14 +10,14 @@ import 'package:flutter/material.dart';
 class ReadJsonProvider extends ChangeNotifier {
   final List<MyMusic> _mySongList = [];
   List<MyMusic> get mySongList => _mySongList;
-  addMyMusic(MyMusic value) {
+  void addMyMusic(MyMusic value) {
     _mySongList.add(value);
     notifyListeners();
   }
 
   bool _sortAscending = true;
   bool get sortAscending => _sortAscending;
-  toggleSort(int columnIndex, bool ascending) {
+  void toggleSort(int columnIndex, bool ascending) {
     _sortAscending = ascending;
     if (_sortAscending) {
       _mySongList.sort((a, b) => a.publishTime.compareTo(b.publishTime));
@@ -27,13 +27,13 @@ class ReadJsonProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  importJson(bool qq) async {
-    FilePickerResult? result = await FilePicker.pickFiles(
+  Future<void> importJson(bool qq) async {
+    List<PlatformFile> result = await FilePicker.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['json'],
     );
-    if (result != null) {
-      File file = File(result.files.single.path!);
+    if (result.isNotEmpty) {
+      File file = File(result.single.path!);
       String stringData = await file.readAsString();
       late dynamic musicList;
       if (qq) {
@@ -53,14 +53,13 @@ class ReadJsonProvider extends ChangeNotifier {
     }
   }
 
-  exportJson() async {
-    String? outputFile = await FilePicker.saveFile(
+  Future<void> exportJson() async {
+    Uri? outputFile = await FilePicker.saveFile(
       fileName: '重命名.json',
+      bytes: utf8.encode(jsonEncode({'musicList': _mySongList})),
     );
-    if (outputFile != null) {
-      File file = File(outputFile);
-      await file.writeAsString(jsonEncode({'musicList': _mySongList}));
-      await file.create();
+    if (outputFile == null) {
+      debugPrint('文件保存失败');
     }
   }
 }

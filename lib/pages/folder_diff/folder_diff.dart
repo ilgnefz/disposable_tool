@@ -62,7 +62,7 @@ class _FolderDiffState extends State<FolderDiff> {
         try {
           await File(file.filePath).delete();
         } catch (e) {
-          print(e);
+          debugPrint(e.toString());
         }
       }
     }

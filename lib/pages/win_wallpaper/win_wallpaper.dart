@@ -6,6 +6,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:win32/win32.dart';
 
+// 表示“所有显示器/当前显示器”的空监视器指针
+//（DesktopWallpaper 的 CLSID 已由 win32 包作为 DesktopWallpaper 常量导出）
+final _nullMonitor = PCWSTR(Pointer<Utf16>.fromAddress(0));
+
 class WinWallpaper extends StatefulWidget {
   const WinWallpaper({super.key});
 
@@ -14,62 +18,30 @@ class WinWallpaper extends StatefulWidget {
 }
 
 class _WinWallpaperState extends State<WinWallpaper> {
-  late DesktopWallpaper wallpaper;
+  late IDesktopWallpaper wallpaper;
 
   String current = '';
   String image = '';
 
   void debugPrintWallpaper() {
-    final pathPtr = calloc<Pointer<Utf16>>();
-
-    try {
-      final hr = wallpaper.getWallpaper(nullptr, pathPtr);
-
-      switch (hr) {
-        case S_OK:
-          final path = pathPtr.value.toDartString();
-          if (path.isNotEmpty) current = path;
-          debugPrint(path.isEmpty
-              ? 'No wallpaper is set.'
-              : 'Wallpaper path is: $path');
-
-        case S_FALSE:
-          debugPrint(
-              'Different monitors are displaying different wallpapers, or a '
-              'slideshow is running.');
-
-        default:
-          throw WindowsException(hr);
-      }
-    } finally {
-      free(pathPtr);
-    }
+    final path = wallpaper.getWallpaper(_nullMonitor).toDartString();
+    if (path.isNotEmpty) current = path;
+    debugPrint(
+        path.isEmpty ? 'No wallpaper is set.' : 'Wallpaper path is: $path');
   }
 
   void debugPrintBackgroundColor() {
-    final colorPtr = calloc<COLORREF>();
-
-    try {
-      final hr = wallpaper.getBackgroundColor(colorPtr);
-
-      if (SUCCEEDED(hr)) {
-        final color = colorPtr.value;
-        debugPrint('Background color is: RGB(${GetRValue(color)}, '
-            '${GetGValue(color)}, ${GetBValue(color)})');
-      } else {
-        throw WindowsException(hr);
-      }
-    } finally {
-      free(colorPtr);
-    }
+    final color = wallpaper.getBackgroundColor();
+    debugPrint('Background color is: RGB(${GetRValue(color)}, '
+        '${GetGValue(color)}, ${GetBValue(color)})');
   }
 
   void result() {
-    final hr = CoInitializeEx(nullptr,
-        COINIT.COINIT_APARTMENTTHREADED | COINIT.COINIT_DISABLE_OLE1DDE);
+    final hr =
+        CoInitializeEx(COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
     if (FAILED(hr)) throw WindowsException(hr);
 
-    wallpaper = DesktopWallpaper.createInstance();
+    wallpaper = createInstance<IDesktopWallpaper>(DesktopWallpaper);
 
     debugPrintWallpaper();
     debugPrintBackgroundColor();
@@ -77,20 +49,23 @@ class _WinWallpaperState extends State<WinWallpaper> {
   }
 
   void selectImage() async {
-    FilePickerResult? result = await FilePicker.pickFiles(
+    List<PlatformFile> result = await FilePicker.pickFiles(
       type: FileType.image,
     );
-    if (result != null) {
-      File file = File(result.files.single.path!);
+    if (result.isNotEmpty) {
+      File file = File(result.single.path!);
       image = file.path;
       setState(() {});
     }
   }
 
   void setWallpaper(String path) {
-    wallpaper = DesktopWallpaper.createInstance();
+    wallpaper = createInstance<IDesktopWallpaper>(DesktopWallpaper);
 
-    wallpaper.setWallpaper(nullptr, path.toNativeUtf16());
+    using((arena) {
+      wallpaper.setWallpaper(
+          _nullMonitor, PCWSTR(path.toNativeUtf16(allocator: arena)));
+    });
   }
 
   @override
@@ -155,7 +130,7 @@ class ShowImage extends StatelessWidget {
       width: width,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [Image.file(File(image)), Text(name)],
+        children: [Expanded(child: Image.file(File(image))), Text(name)],
       ),
     );
   }

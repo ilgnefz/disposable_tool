@@ -9,7 +9,7 @@ class FileExplorerProvider extends ChangeNotifier {
   /// 获取电脑所有磁盘
   final List<Disk> _diskList = [];
   List<Disk> get diskList => _diskList;
-  getDiskInfo() async {
+  Future<void> getDiskInfo() async {
     final diskSpace = DiskSpace();
     await diskSpace.scan();
     var disks = diskSpace.disks;
@@ -21,7 +21,7 @@ class FileExplorerProvider extends ChangeNotifier {
   /// 文件显示的模式
   bool _showStyle = false;
   bool get showStyle => _showStyle;
-  switchShowStyle() {
+  void switchShowStyle() {
     _showStyle = !_showStyle;
     notifyListeners();
   }
@@ -29,7 +29,7 @@ class FileExplorerProvider extends ChangeNotifier {
   /// 获取当前路径并读取路径下的所有文件
   String? _currentPath;
   String get currentPath => _currentPath ?? '此电脑';
-  setCurrentPath(String? value) {
+  void setCurrentPath(String? value) {
     _currentPath = value;
     loadAllFile();
     notifyListeners();
@@ -39,7 +39,7 @@ class FileExplorerProvider extends ChangeNotifier {
   bool get isDisable => _currentPath == null;
 
   /// 返回上一层
-  previousPath() {
+  void previousPath() {
     String dirPath = path.dirname(_currentPath!);
     if (dirPath == '.' || dirPath == _currentPath) {
       setCurrentPath(null);
@@ -52,7 +52,7 @@ class FileExplorerProvider extends ChangeNotifier {
   /// 是否查看隐藏文件
   bool _showHiddenFile = false;
   bool get showHiddenFile => _showHiddenFile;
-  switchHiddenFile() {
+  void switchHiddenFile() {
     _showHiddenFile = !_showHiddenFile;
     notifyListeners();
   }
@@ -60,12 +60,12 @@ class FileExplorerProvider extends ChangeNotifier {
   /// 文件列表
   final List<FileSystemEntity> _fileList = [];
   List<FileSystemEntity> get fileList => _fileList;
-  addAllFile(List<FileSystemEntity> value) {
+  void addAllFile(List<FileSystemEntity> value) {
     _fileList.addAll(value);
   }
 
   /// 获取文件夹（磁盘）下的所有文件
-  loadAllFile() {
+  void loadAllFile() {
     List<FileSystemEntity> onlyDirectory = [];
     List<FileSystemEntity> onlyFile = [];
     // List<FileSystemEntity> onlyHidden = [];
@@ -103,7 +103,7 @@ class FileExplorerProvider extends ChangeNotifier {
   /// 当前预览文件的路径
   FileSystemEntity? _currentViewFile;
   FileSystemEntity? get currentViewFile => _currentViewFile;
-  setCurrentViewFile(FileSystemEntity? value, [BuildContext? context]) {
+  void setCurrentViewFile(FileSystemEntity? value, [BuildContext? context]) {
     _currentViewFile = value;
     notifyListeners();
     if (context != null) openViewFiles(context);
@@ -112,7 +112,7 @@ class FileExplorerProvider extends ChangeNotifier {
   /// 上一张图和下一张图
   final List<FileSystemEntity> _onlyImage = [];
   List<FileSystemEntity> get onlyImage => _onlyImage;
-  setImageList() {
+  void setImageList() {
     for (var file in fileList) {
       if (imageExtension.contains(path.extension(file.path))) {
         _onlyImage.add(file);
@@ -121,7 +121,7 @@ class FileExplorerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  previousImage(FileSystemEntity file) {
+  void previousImage(FileSystemEntity file) {
     int index = _onlyImage.indexOf(_currentViewFile!);
     if (index > 0) {
       _currentViewFile = _onlyImage[index - 1];
@@ -131,7 +131,7 @@ class FileExplorerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  nextImage(FileSystemEntity file) {
+  void nextImage(FileSystemEntity file) {
     int index = _onlyImage.indexOf(_currentViewFile!);
     if (index < _onlyImage.length) {
       _currentViewFile = _onlyImage[index + 1];
@@ -142,7 +142,7 @@ class FileExplorerProvider extends ChangeNotifier {
   }
 
   /// 查看文件
-  openViewFiles(BuildContext context) {
+  void openViewFiles(BuildContext context) {
     String fileExtension = path.extension(_currentViewFile!.path).toLowerCase();
     bool isImage = imageExtension.contains(fileExtension);
     // bool isVideo = videoExtension.contains(fileExtension);
@@ -162,7 +162,7 @@ class FileExplorerProvider extends ChangeNotifier {
   }
 
   /// 关闭查看的文件
-  closeViewFile(BuildContext context) {
+  void closeViewFile(BuildContext context) {
     Navigator.of(context).pop();
     Future.delayed(const Duration(milliseconds: 300), () {
       setCurrentViewFile(null);
@@ -170,7 +170,7 @@ class FileExplorerProvider extends ChangeNotifier {
   }
 
   /// 打开文件夹或查看文件
-  open(BuildContext context, FileSystemEntity file) {
+  void open(BuildContext context, FileSystemEntity file) {
     bool isDir = file.statSync().type == FileSystemEntityType.directory;
     if (isDir) {
       setCurrentPath(file.path);
@@ -183,7 +183,7 @@ class FileExplorerProvider extends ChangeNotifier {
   /// 选中文件或文件夹
   String? _selectedPath;
   String? get selectedPath => _selectedPath;
-  selected(FileSystemEntity file) {
+  void selected(FileSystemEntity file) {
     _selectedPath = file.path;
     notifyListeners();
   }
